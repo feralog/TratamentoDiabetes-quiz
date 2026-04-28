@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Tratamento do Diabetes</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1a1a1a; min-height: 100vh; }
+  header { background: #1e3a5f; color: white; padding: 20px 30px; text-align: center; }
+  header h1 { font-size: 22px; margin-bottom: 4px; }
+  header p { font-size: 13px; opacity: 0.8; }
+  .quiz-container { max-width: 800px; margin: 30px auto; padding: 0 16px 60px; }
+  #startScreen { background: white; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  #startScreen h2 { font-size: 20px; color: #1e3a5f; margin-bottom: 12px; }
+  #startScreen p { font-size: 14px; color: #555; margin-bottom: 24px; line-height: 1.6; }
+  .progress-bar-bg { background: #dde3ea; border-radius: 8px; height: 8px; margin-bottom: 8px; }
+  .progress-bar-fill { background: #2563eb; height: 8px; border-radius: 8px; transition: width 0.4s ease; }
+  .progress-label { font-size: 12px; color: #666; margin-bottom: 20px; }
+  .question-card { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 16px; }
+  .question-number { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #2563eb; letter-spacing: 1px; margin-bottom: 10px; }
+  .question-text { font-size: 15px; line-height: 1.65; color: #1a1a1a; margin-bottom: 22px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn { background: #f7f9fc; border: 2px solid #dde3ea; border-radius: 8px; padding: 12px 16px; text-align: left; font-size: 14px; cursor: pointer; transition: background 0.15s, border-color 0.15s; line-height: 1.5; }
+  .option-btn:hover:not(:disabled) { background: #e8f0fe; border-color: #2563eb; }
+  .option-btn.correct { background: #d1fae5; border-color: #16a34a; color: #166534; }
+  .option-btn.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+  .option-btn:disabled { cursor: default; }
+  .explanation { display: none; background: #f0fdf4; border-left: 4px solid #16a34a; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-top: 14px; font-size: 13px; line-height: 1.6; color: #166534; }
+  .explanation.show { display: block; }
+  .btn-next { display: none; margin-top: 18px; background: #2563eb; color: white; border: none; border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-next:hover { background: #1d4ed8; }
+  .btn-next.show { display: inline-block; }
+  .btn-primary { background: #2563eb; color: white; border: none; border-radius: 8px; padding: 14px 36px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-primary:hover { background: #1d4ed8; }
+  #resultScreen { display: none; background: white; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #1e3a5f; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .score-circle .score-num { font-size: 32px; font-weight: 700; }
+  .score-circle .score-denom { font-size: 13px; opacity: 0.8; }
+  #resultScreen h2 { font-size: 20px; color: #1e3a5f; margin-bottom: 10px; }
+  #resultScreen p { font-size: 14px; color: #555; margin-bottom: 24px; }
+  .stats-row { display: flex; justify-content: center; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+  .stat-box { background: #f7f9fc; border-radius: 8px; padding: 12px 20px; text-align: center; min-width: 90px; }
+  .stat-box .stat-val { font-size: 22px; font-weight: 700; }
+  .stat-box .stat-lbl { font-size: 11px; color: #888; margin-top: 2px; }
+  .stat-box.green .stat-val { color: #16a34a; }
+  .stat-box.red .stat-val { color: #dc2626; }
+  .stat-box.blue .stat-val { color: #2563eb; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Tratamento Prático do Diabetes</h1>
+  <p>Endocrinologia — Saúde do Adulto e do Idoso</p>
+</header>
+
+<div class="quiz-container">
+  <div id="startScreen">
+    <h2>Quiz de Revisão</h2>
+    <p>22 questões cobrindo diagnóstico, antidiabéticos orais, GLP-1 RA, iSGLT2, insulinoterapia e estratégia terapêutica.<br><br>Responda cada questão e veja a explicação antes de avançar.</p>
+    <button class="btn-primary" onclick="startQuiz()">Começar Quiz</button>
+  </div>
+
+  <div id="quizArea" style="display:none;">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">Questão 0 de 22</div>
+    <div class="question-card" id="questionCard">
+      <div class="question-number" id="questionNumber"></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="explanation" id="explanation"></div>
+      <button class="btn-next" id="btnNext" onclick="nextQuestion()">Próxima questão →</button>
+    </div>
+  </div>
+
+  <div id="resultScreen">
+    <div class="score-circle">
+      <span class="score-num" id="scoreFinal">0</span>
+      <span class="score-denom" id="scoreDenom">de 22</span>
+    </div>
+    <h2 id="resultTitle"></h2>
+    <p id="resultMsg"></p>
+    <div class="stats-row">
+      <div class="stat-box green"><div class="stat-val" id="statCorrect">0</div><div class="stat-lbl">Acertos</div></div>
+      <div class="stat-box red"><div class="stat-val" id="statWrong">0</div><div class="stat-lbl">Erros</div></div>
+      <div class="stat-box blue"><div class="stat-val" id="statPct">0%</div><div class="stat-lbl">Aproveitamento</div></div>
+    </div>
+    <button class="btn-primary" onclick="restartQuiz()">Refazer Quiz</button>
+  </div>
+</div>
+
+<script>
+const rawQuestions = [
+  {
+    question: "Quais são os critérios diagnósticos para Diabetes Mellitus tipo 2?",
+    options: ["2 exames alterados: glicemia de jejum >126 mg/dL, HbA1c >6,5% ou TOTG 2h >200 mg/dL", "Um único exame de glicemia de jejum >126 mg/dL em qualquer momento do dia", "HbA1c >7% em dois momentos distintos com intervalo de 3 meses", "Glicemia pós-prandial >180 mg/dL em dois dias consecutivos"],
+    correctIndex: 0,
+    explanation: "O diagnóstico exige 2 exames alterados (podem ser o mesmo teste em dois momentos diferentes ou dois testes distintos). Os critérios são: glicemia de jejum >126, HbA1c >6,5% ou TOTG 2h >200. Exceção: glicemia aleatória >200 com sintomas clássicos — dispensa confirmação."
+  },
+  {
+    question: "Qual é o mecanismo de ação da metformina?",
+    options: ["Reduz a produção hepática de glicose (gliconeogênese) via ativação da AMPK", "Estimula as células beta a secretar insulina glicose-independente", "Inibe a absorção de glicose no intestino delgado via bloqueio de SGLT1", "Aumenta a meia-vida do GLP-1 endógeno ao inibir a DPP-4"],
+    correctIndex: 0,
+    explanation: "A metformina age principalmente reduzindo a gliconeogênese hepática, o que diminui a produção de glicose pelo fígado. Ativa a via da AMPK (AMP-activated protein kinase). Não estimula secreção de insulina — por isso não causa hipoglicemia e é neutra em peso."
+  },
+  {
+    question: "Paciente com DM2 em uso de metformina é internado para cirurgia eletiva. Qual a conduta em relação ao medicamento?",
+    options: ["Suspender a metformina na internação pelo risco de acidose lática", "Manter a metformina em dose reduzida durante o peri-operatório", "Substituir temporariamente por sulfonilureia de meia-vida curta", "Converter para insulina regular 1:1 em relação à dose de metformina"],
+    correctIndex: 0,
+    explanation: "A metformina deve ser suspensa na internação (cirurgias, uso de contrastes iodados) pelo risco de acidose lática — situação rara mas grave, relacionada ao hiperlactatemia em estados de hipoperfusão. O jejum e a possível instabilidade hemodinâmica cirúrgica aumentam o risco."
+  },
+  {
+    question: "Por que as sulfonilureias causam hipoglicemia mesmo em jejum?",
+    options: ["Estimulam a secreção de insulina pelas células beta de forma glicose-INDEPENDENTE, por ligação no receptor SUR", "Inibem a produção hepática de glicose mesmo quando a glicemia está baixa", "Bloqueiam o glucagon pancreático em todos os cenários glicêmicos", "Aumentam a sensibilidade periférica à insulina mesmo com glicemia baixa"],
+    correctIndex: 0,
+    explanation: "As sulfonilureias ligam-se ao receptor SUR na membrana das células beta → fecham o canal de K⁺ → despolarização → influxo de Ca²⁺ → liberação de insulina. Como esse mecanismo é INDEPENDENTE da glicose, a insulina pode ser liberada mesmo com glicemia baixa — causando hipoglicemia. Por isso, cuidado especial em idosos."
+  },
+  {
+    question: "Paciente idosa com DM2 em uso de glibenclamida apresenta hipoglicemia recorrente. Qual a melhor conduta?",
+    options: ["Substituir a glibenclamida por gliclazida (menor risco de hipoglicemia) ou outra classe sem hipoglicemia", "Reduzir a dose de glibenclamida pela metade e monitorar", "Manter glibenclamida e orientar maior ingesta calórica", "Adicionar metformina para compensar e evitar hipoglicemias"],
+    correctIndex: 0,
+    explanation: "Em idosos, o risco de hipoglicemia grave é muito maior (menor percepção dos sintomas, maior risco de queda e trauma). Entre as sulfonilureias, a gliclazida tem menor risco de hipoglicemia. Alternativas ainda melhores são classes sem risco de hipoglicemia (iDPP-4, iSGLT2, GLP-1 RA)."
+  },
+  {
+    question: "Qual o principal benefício cardiovascular dos inibidores do SGLT2 (gliflozinas)?",
+    options: ["Redução de hospitalizações por insuficiência cardíaca e proteção renal, com benefício em desfechos CV em pacientes com DCV estabelecida", "Redução de mortalidade cardiovascular exclusivamente em pacientes com DM tipo 1", "Redução de IAM em pacientes sem doença cardiovascular prévia", "Controle estrito da glicemia pós-prandial como mecanismo de proteção vascular"],
+    correctIndex: 0,
+    explanation: "Os iSGLT2 (empagliflozina, dapagliflozina, canagliflozina) têm evidências robustas de: redução de hospitalizações por IC, progressão de DRC (efeito natriurético e hemodinâmico), e mortalidade CV em pacientes com DCV estabelecida. São a classe preferencial em pacientes com IC ou DRC."
+  },
+  {
+    question: "Uma paciente com DM2 relata corrimento vaginal recorrente após iniciar dapagliflozina. Qual a conduta?",
+    options: ["Orientar higiene adequada antes de considerar suspender — infecção genitourinária é efeito adverso esperado mas manejável", "Suspender imediatamente e trocar por sulfonilureia", "Encaminhar à ginecologia e manter a medicação sem nenhuma orientação adicional", "Reduzir a dose à metade para diminuir a glicosúria"],
+    correctIndex: 0,
+    explanation: "Infecção genitourinária (candidíase vulvovaginal, ITU) é efeito adverso frequente dos iSGLT2 pela glicosúria. A primeira conduta é orientar higiene perineal adequada. Apenas se não melhorar ou se houver infecções recorrentes graves considerar troca de classe. A proteção cardiorrenal é grande e não deve ser abandonada por efeito manejável."
+  },
+  {
+    question: "Qual o mecanismo de ação dos agonistas do receptor de GLP-1 (semaglutida, liraglutida)?",
+    options: ["Mimetizam o GLP-1: secretam insulina glicose-dependente, reduzem glucagon, retardam esvaziamento gástrico e aumentam saciedade central", "Inibem a DPP-4, aumentando a meia-vida do GLP-1 endógeno e do GIP", "Bloqueiam o receptor de glucagon no fígado, reduzindo a glicogenólise", "Estimulam a secreção pancreática de insulina por mecanismo glicose-independente"],
+    correctIndex: 0,
+    explanation: "Os GLP-1 RA mimetizam o hormônio incretina GLP-1. Como a ação é glicose-dependente (insulina só é liberada quando a glicose está elevada), raramente causam hipoglicemia. Além disso, o retardo do esvaziamento gástrico e a ação central no SNC causam saciedade — resultando em perda de peso."
+  },
+  {
+    question: "Paciente com DM2 e carcinoma medular de tireoide na família quer iniciar GLP-1 RA para perda de peso. Qual a conduta?",
+    options: ["Contraindicado — GLP-1 RA e tirzepatida são contraindicados em história pessoal ou familiar de CMT ou NEM tipo 2", "Permitido desde que a dose seja baixa e monitorada com calcitonina semestral", "Indicado, pois o GLP-1 RA não tem relação com tumores tireoidianos em humanos", "Suspender caso a calcitonina se eleve acima de 2× o limite superior da normalidade"],
+    correctIndex: 0,
+    explanation: "Histórico pessoal ou familiar de carcinoma medular de tireoide (CMT) ou neoplasia endócrina múltipla tipo 2 (NEM2) é contraindicação absoluta aos GLP-1 RA e tirzepatida. Em estudos em roedores, esses fármacos estimularam células C tireoidianas — embora sem evidência em humanos, a precaução é mantida pela relevância do risco."
+  },
+  {
+    question: "Qual a vantagem dos inibidores da DPP-4 (gliptinas) em relação às sulfonilureias?",
+    options: ["Ação glicose-dependente — raramente causam hipoglicemia e são neutros em peso", "Maior redução de HbA1c (2–2,5%) com melhor perfil de segurança", "Proteção cardiovascular superior com redução de eventos isquêmicos", "Custo muito inferior no sistema público de saúde"],
+    correctIndex: 0,
+    explanation: "Os iDPP-4 aumentam a meia-vida do GLP-1 e GIP endógenos — a ação é glicose-dependente, portanto raramente causam hipoglicemia. São neutros em peso. A redução de HbA1c é modesta (0,6–0,8%), inferior à metformina e sulfonilureias. Saxagliptina aumenta hospitalizações por IC — preferir outras gliptinas em IC."
+  },
+  {
+    question: "Paciente com DM2, DRC (TFG = 25 mL/min/1,73 m²) e IC com FE reduzida. Qual a classe antidiabética mais indicada?",
+    options: ["iSGLT2 — protege tanto o rim quanto o coração, com evidências em DRC e IC com FE reduzida", "Sulfonilureia com ajuste de dose para a TFG", "Metformina em dose reduzida com monitoramento frequente", "iDPP-4 como única opção segura com TFG <30"],
+    correctIndex: 0,
+    explanation: "iSGLT2 têm a melhor evidência de proteção cardiorrenal: reduzem progressão da DRC, diminuem hospitalizações por IC e mortalidade CV. Para dapagliflozina/empagliflozina em DRC, o limiar para suspensão é TFG <25 (indicação renal específica). Metformina é contraindicada com TFG <30."
+  },
+  {
+    question: "Qual é a diferença de mecanismo entre iDPP-4 e GLP-1 RA?",
+    options: ["iDPP-4 preservam o GLP-1 endógeno (nível fisiológico); GLP-1 RA são moléculas exógenas com concentrações suprafisiológicas — por isso GLP-1 RA têm maior eficácia em peso e HbA1c", "iDPP-4 estimulam a célula beta diretamente; GLP-1 RA atuam no SNC para reduzir apetite", "iDPP-4 inibem o SGLT2 no rim; GLP-1 RA inibem a DPP-4 no intestino", "Ambos têm o mesmo mecanismo e eficácia, diferenciando-se apenas pela via de administração"],
+    correctIndex: 0,
+    explanation: "Os iDPP-4 inibem a enzima que degrada o GLP-1 endógeno, mantendo-o em concentrações fisiológicas (baixas). Os GLP-1 RA injetam o receptor com concentrações muito maiores que as fisiológicas, gerando efeitos mais intensos — maior perda de peso, maior redução de HbA1c, maior retardo do esvaziamento gástrico e benefício CV mais pronunciado."
+  },
+  {
+    question: "O que é a tirzepatida e qual sua principal vantagem sobre os GLP-1 RA convencionais?",
+    options: ["Agonista duplo GIP/GLP-1 — maior redução de HbA1c (>2%) e maior perda de peso que os GLP-1 RA isolados", "Agonista exclusivo do GIP com menor risco de náusea e maior eficácia que os GLP-1 RA", "Combinação fixa de insulina basal com GLP-1 RA em uma única injeção", "Análogo de GLP-1 de ação ultra-rápida para uso prandial em DM2 grave"],
+    correctIndex: 0,
+    explanation: "A tirzepatida (Mounjaro) ativa receptores de GIP e GLP-1 simultaneamente. O GIP amplifica os efeitos insulinotrópicos e lipolíticos. Em estudos clínicos, tirzepatida mostrou redução de HbA1c >2% e perda de peso superior a todos os GLP-1 RA. Não deve ser combinada com GLP-1 RA (sobreposição de mecanismo) nem iDPP-4."
+  },
+  {
+    question: "Qual a meta de HbA1c para o acompanhamento do DM2 e em que ponto se considera escalar a terapia?",
+    options: ["Meta de acompanhamento: HbA1c <7%; escalar terapia se HbA1c ≥7,5% (0,5% acima do alvo)", "Meta de acompanhamento: HbA1c <8%; escalar se >9%", "Meta de acompanhamento: HbA1c <6,5%; escalar imediatamente se ultrapassa 7%", "Meta de acompanhamento: HbA1c <7,5%; escalar apenas se sintomas de hiperglicemia"],
+    correctIndex: 0,
+    explanation: "Segundo as diretrizes da SBD: HbA1c >6,5% = diagnóstico; >7,5% = ponto de decisão para escalar ou iniciar terapia combinada; alvo de acompanhamento <7%. Metas individualizadas para idosos, alto risco de hipoglicemia ou comorbidades graves podem ser menos estritas (<8%)."
+  },
+  {
+    question: "Em paciente com DM2, sem doença cardiorrenal, sem obesidade e HbA1c de 8,2%, qual a terapia inicial recomendada?",
+    options: ["Terapia dupla: metformina + iSGLT2 (ou outro AD) — HbA1c ≥7,5% indica combinação inicial", "Metformina em monoterapia com reavaliação em 6 meses", "Insulina NPH basal imediatamente pela HbA1c acima de 8%", "iSGLT2 isolado pela proteção cardiovascular independente da metformina"],
+    correctIndex: 0,
+    explanation: "Segundo a SBD, pacientes sem doença cardiorrenal e sem obesidade/sobrepeso, mas com HbA1c ≥7,5% (≥0,5% acima do alvo), devem iniciar terapia dupla. Metformina + iSGLT2 é a combinação preferencial. Apenas se HbA1c <7,5%, a metformina em monoterapia é recomendada como primeira escolha."
+  },
+  {
+    question: "Qual o principal efeito adverso das glitazonas que limita seu uso em pacientes com insuficiência cardíaca?",
+    options: ["Retenção hídrica e ganho de peso, podendo descompensar a IC — contraindicadas na IC classe III–IV", "Aumento da PA sistólica por vasoconstrição periférica", "Estimulação do sistema renina-angiotensina com hipernatremia", "Taquicardia reflexa por vasodilatação arterial periférica excessiva"],
+    correctIndex: 0,
+    explanation: "As glitazonas causam retenção hídrica (ativam PPAR-γ no rim e aumentam reabsorção de sódio), podendo precipitar ou agravar IC. São contraindicadas na IC classes III e IV da NYHA. Além disso, causam ganho de peso e aumentam o risco de fraturas por reabsorção óssea — especialmente problemático em mulheres na menopausa."
+  },
+  {
+    question: "Em qual tipo de diabetes a insulinoterapia é obrigatória desde o diagnóstico?",
+    options: ["DM tipo 1 — destruição autoimune das células beta causa deficiência absoluta de insulina; os antidiabéticos orais não funcionam nesse tipo", "DM tipo 2 com HbA1c >10% ao diagnóstico", "DM tipo 2 em pacientes com IMC >35 kg/m²", "DM gestacional diagnosticado após a 20ª semana"],
+    correctIndex: 0,
+    explanation: "No DM1, as células beta foram destruídas pelo sistema imunológico — não há produção endógena de insulina. O tratamento com insulina é obrigatório e imediato (prevenir cetoacidose diabética). Os antidiabéticos orais que dependem de células beta funcionantes (sulfonilureias, iDPP-4) são ineficazes no DM1."
+  },
+  {
+    question: "Qual é a diferença de perfil cinético entre a insulina NPH e a insulina Regular?",
+    options: ["NPH: intermediária (início 2–4h, pico 4–10h, duração 10–18h); Regular: curta (início 30–60 min, pico 2–3h, duração 5–8h)", "NPH: longa (início 1h, sem pico, duração 24h); Regular: intermediária (início 1–2h, pico 4–6h, duração 12–16h)", "NPH: curta (início 30 min, pico 1–2h, duração 4–6h); Regular: intermediária (início 2h, pico 6–8h, duração 14h)", "Ambas têm perfil semelhante, diferindo apenas na estabilidade em temperatura ambiente"],
+    correctIndex: 0,
+    explanation: "NPH (Neutral Protamine Hagedorn) é insulina de ação intermediária — serve como basal, necessita 2–3 aplicações/dia. Regular (R) é de ação curta — serve como prandial/bolus, deve ser aplicada 30 minutos antes da refeição para coincidir o pico com a absorção alimentar. Mnemônico: R = Regular = Rápida = Refeição."
+  },
+  {
+    question: "No regime basal-bolus do DM1, como a dose total de insulina é dividida?",
+    options: ["50% basal (NPH 2×/dia) + 50% prandial/bolus (Regular antes das 3 refeições)", "70% basal (NPH 1×/dia à noite) + 30% prandial (Regular antes do almoço)", "100% basal (NPH 1×/dia) com ajuste conforme glicemia capilar pós-prandial", "30% basal + 70% prandial, pois a refeição é o principal estímulo insulínico"],
+    correctIndex: 0,
+    explanation: "O regime basal-bolus divide a dose total em ~50% para cobertura basal (ao longo do dia, geralmente NPH em 2 aplicações — manhã e noite) e ~50% para cobertura prandial (bolus de Regular antes de cada refeição principal). O objetivo é mimetizar a secreção fisiológica de insulina."
+  },
+  {
+    question: "Qual o gliptina que NÃO precisa de ajuste de dose com redução da TFG?",
+    options: ["Linagliptina — é eliminada predominantemente pelas fezes (via biliar), sem dependência renal", "Sitagliptina — é a mais segura em doença renal crônica", "Saxagliptina — não requer ajuste pois é metabolizada pelo fígado", "Vildagliptina — dose padrão em qualquer nível de TFG"],
+    correctIndex: 0,
+    explanation: "A linagliptina é a única gliptina eliminada predominantemente pela bile/fezes, não pelo rim. Portanto, não requer ajuste de dose em nenhum grau de DRC — uma vantagem prática importante em pacientes com TFG reduzida. As demais (sitagliptina, saxagliptina, vildagliptina) precisam de ajuste conforme a TFG."
+  },
+  {
+    question: "Paciente com DM2 e obesidade grave (IMC 42) sem DCV estabelecida. Qual classe priorizar?",
+    options: ["GLP-1 RA ou tirzepatida — maior redução de peso associada ao controle glicêmico", "iSGLT2 como única classe com benefício em obesidade grave", "Sulfonilureia em dose alta para controle glicêmico agressivo", "Metformina em alta dose + tiazolidinediona para sinergia metabólica"],
+    correctIndex: 0,
+    explanation: "GLP-1 RA (especialmente semaglutida) e tirzepatida têm os maiores efeitos de perda de peso entre os antidiabéticos. Em obesos com DM2, essa dupla ação (controle glicêmico + redução de peso) é prioritária. Tirzepatida (GIP/GLP-1) apresenta a maior redução de peso de qualquer antidiabético disponível."
+  },
+  {
+    question: "Uma saxagliptina (iDPP-4) específica aumenta o risco de qual complicação grave?",
+    options: ["Hospitalização por insuficiência cardíaca — diferentemente de outras gliptinas que são neutras nesse desfecho", "Cetoacidose euglicêmica em pacientes com DM1 inadvertidamente diagnosticados como DM2", "Agranulocitose por supressão medular dose-dependente", "Pancreatite necrosante hemorrágica em pacientes com triglicérides acima de 500"],
+    correctIndex: 0,
+    explanation: "O estudo SAVOR-TIMI mostrou que saxagliptina aumentou significativamente as hospitalizações por IC em relação ao placebo — resultado que não foi observado com outras gliptinas (sitagliptina, linagliptina). Por isso, saxagliptina é evitada em pacientes com IC ou risco elevado de IC."
+  }
+];
+
+function shuffleQuestion(q) {
+  const correctText = q.options[q.correctIndex];
+  const shuffled = [...q.options];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return { ...q, options: shuffled, correctIndex: shuffled.indexOf(correctText) };
+}
+
+let questions = [];
+let current = 0;
+let score = 0;
+
+function startQuiz() {
+  questions = rawQuestions.map(shuffleQuestion).sort(() => Math.random() - 0.5);
+  current = 0; score = 0;
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+  document.getElementById('scoreDenom').textContent = 'de ' + questions.length;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const total = questions.length;
+  document.getElementById('progressBar').style.width = ((current / total) * 100) + '%';
+  document.getElementById('progressLabel').textContent = 'Questão ' + (current + 1) + ' de ' + total;
+  document.getElementById('questionNumber').textContent = 'Questão ' + (current + 1);
+  document.getElementById('questionText').textContent = q.question;
+  const expl = document.getElementById('explanation');
+  expl.className = 'explanation';
+  expl.textContent = '';
+  const btn = document.getElementById('btnNext');
+  btn.className = 'btn-next';
+  btn.textContent = current === total - 1 ? 'Ver resultado' : 'Próxima questão →';
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'option-btn';
+    b.textContent = opt;
+    b.onclick = () => selectAnswer(i);
+    container.appendChild(b);
+  });
+}
+
+function selectAnswer(selected) {
+  const q = questions[current];
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => b.disabled = true);
+  buttons[selected].classList.add(selected === q.correctIndex ? 'correct' : 'wrong');
+  if (selected !== q.correctIndex) buttons[q.correctIndex].classList.add('correct');
+  if (selected === q.correctIndex) score++;
+  const expl = document.getElementById('explanation');
+  expl.textContent = q.explanation;
+  expl.className = 'explanation show';
+  document.getElementById('btnNext').className = 'btn-next show';
+}
+
+function nextQuestion() {
+  current++;
+  if (current < questions.length) { renderQuestion(); }
+  else { showResult(); }
+}
+
+function showResult() {
+  document.getElementById('quizArea').style.display = 'none';
+  const rs = document.getElementById('resultScreen');
+  rs.style.display = 'block';
+  const pct = Math.round((score / questions.length) * 100);
+  document.getElementById('scoreFinal').textContent = score;
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = questions.length - score;
+  document.getElementById('statPct').textContent = pct + '%';
+  let title, msg;
+  if (pct >= 90) { title = 'Excelente!'; msg = 'Domínio sólido do tema. Continue assim!'; }
+  else if (pct >= 70) { title = 'Muito bom!'; msg = 'Bom desempenho. Revise os pontos errados.'; }
+  else if (pct >= 50) { title = 'Regular'; msg = 'Revise o relatório e refaça o quiz.'; }
+  else { title = 'Precisa revisar'; msg = 'Releia o material com atenção antes de tentar novamente.'; }
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMsg').textContent = msg;
+}
+
+function restartQuiz() {
+  document.getElementById('resultScreen').style.display = 'none';
+  startQuiz();
+}
+</script>
+</body>
+</html>
