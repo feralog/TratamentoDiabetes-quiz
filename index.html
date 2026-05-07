@@ -94,13 +94,13 @@
 const rawQuestions = [
   {
     question: "Quais são os critérios diagnósticos para Diabetes Mellitus tipo 2?",
-    options: ["2 exames alterados: glicemia de jejum >126 mg/dL, HbA1c >6,5% ou TOTG 2h >200 mg/dL", "Um único exame de glicemia de jejum >126 mg/dL em qualquer momento do dia", "HbA1c >7% em dois momentos distintos com intervalo de 3 meses", "Glicemia pós-prandial >180 mg/dL em dois dias consecutivos"],
+    options: ["2 exames alterados: jejum >126 mg/dL, HbA1c >6,5% ou TOTG 2h >200 mg/dL", "Um único exame de glicemia de jejum >126 mg/dL em qualquer momento do dia", "HbA1c >7% em dois momentos distintos com intervalo de 3 meses", "Glicemia pós-prandial >180 mg/dL em dois dias consecutivos"],
     correctIndex: 0,
     explanation: "O diagnóstico exige 2 exames alterados (podem ser o mesmo teste em dois momentos diferentes ou dois testes distintos). Os critérios são: glicemia de jejum >126, HbA1c >6,5% ou TOTG 2h >200. Exceção: glicemia aleatória >200 com sintomas clássicos — dispensa confirmação."
   },
   {
     question: "Qual é o mecanismo de ação da metformina?",
-    options: ["Reduz a produção hepática de glicose (gliconeogênese) via ativação da AMPK", "Estimula as células beta a secretar insulina glicose-independente", "Inibe a absorção de glicose no intestino delgado via bloqueio de SGLT1", "Aumenta a meia-vida do GLP-1 endógeno ao inibir a DPP-4"],
+    options: ["Reduz produção hepática de glicose (gliconeogênese) via ativação da AMPK", "Estimula as células beta a secretar insulina glicose-independente", "Inibe a absorção de glicose no intestino delgado via bloqueio de SGLT1", "Aumenta a meia-vida do GLP-1 endógeno via inibição da DPP-4"],
     correctIndex: 0,
     explanation: "A metformina age principalmente reduzindo a gliconeogênese hepática, o que diminui a produção de glicose pelo fígado. Ativa a via da AMPK (AMP-activated protein kinase). Não estimula secreção de insulina — por isso não causa hipoglicemia e é neutra em peso."
   },
@@ -112,91 +112,91 @@ const rawQuestions = [
   },
   {
     question: "Por que as sulfonilureias causam hipoglicemia mesmo em jejum?",
-    options: ["Estimulam a secreção de insulina pelas células beta de forma glicose-INDEPENDENTE, por ligação no receptor SUR", "Inibem a produção hepática de glicose mesmo quando a glicemia está baixa", "Bloqueiam o glucagon pancreático em todos os cenários glicêmicos", "Aumentam a sensibilidade periférica à insulina mesmo com glicemia baixa"],
+    options: ["Estimulam secreção de insulina glicose-INDEPENDENTE via receptor SUR", "Inibem a produção hepática de glicose mesmo quando a glicemia está baixa", "Bloqueiam o glucagon pancreático em todos os cenários glicêmicos", "Aumentam a sensibilidade periférica à insulina mesmo com glicemia baixa"],
     correctIndex: 0,
     explanation: "As sulfonilureias ligam-se ao receptor SUR na membrana das células beta → fecham o canal de K⁺ → despolarização → influxo de Ca²⁺ → liberação de insulina. Como esse mecanismo é INDEPENDENTE da glicose, a insulina pode ser liberada mesmo com glicemia baixa — causando hipoglicemia. Por isso, cuidado especial em idosos."
   },
   {
     question: "Paciente idosa com DM2 em uso de glibenclamida apresenta hipoglicemia recorrente. Qual a melhor conduta?",
-    options: ["Substituir a glibenclamida por gliclazida (menor risco de hipoglicemia) ou outra classe sem hipoglicemia", "Reduzir a dose de glibenclamida pela metade e monitorar", "Manter glibenclamida e orientar maior ingesta calórica", "Adicionar metformina para compensar e evitar hipoglicemias"],
+    options: ["Substituir glibenclamida por gliclazida ou outra classe sem hipoglicemia", "Reduzir a dose de glibenclamida pela metade e monitorar", "Manter glibenclamida e orientar maior ingesta calórica", "Adicionar metformina para compensar e evitar hipoglicemias"],
     correctIndex: 0,
     explanation: "Em idosos, o risco de hipoglicemia grave é muito maior (menor percepção dos sintomas, maior risco de queda e trauma). Entre as sulfonilureias, a gliclazida tem menor risco de hipoglicemia. Alternativas ainda melhores são classes sem risco de hipoglicemia (iDPP-4, iSGLT2, GLP-1 RA)."
   },
   {
     question: "Qual o principal benefício cardiovascular dos inibidores do SGLT2 (gliflozinas)?",
-    options: ["Redução de hospitalizações por insuficiência cardíaca e proteção renal, com benefício em desfechos CV em pacientes com DCV estabelecida", "Redução de mortalidade cardiovascular exclusivamente em pacientes com DM tipo 1", "Redução de IAM em pacientes sem doença cardiovascular prévia", "Controle estrito da glicemia pós-prandial como mecanismo de proteção vascular"],
+    options: ["Redução de IC e proteção renal com benefício CV comprovado em DCV estabelecida", "Redução de mortalidade CV exclusivamente em DM tipo 1 (não comprovado)", "Redução de IAM em pacientes sem doença cardiovascular prévia (não provado)", "Controle da glicemia pós-prandial como mecanismo de proteção vascular"],
     correctIndex: 0,
     explanation: "Os iSGLT2 (empagliflozina, dapagliflozina, canagliflozina) têm evidências robustas de: redução de hospitalizações por IC, progressão de DRC (efeito natriurético e hemodinâmico), e mortalidade CV em pacientes com DCV estabelecida. São a classe preferencial em pacientes com IC ou DRC."
   },
   {
     question: "Uma paciente com DM2 relata corrimento vaginal recorrente após iniciar dapagliflozina. Qual a conduta?",
-    options: ["Orientar higiene adequada antes de considerar suspender — infecção genitourinária é efeito adverso esperado mas manejável", "Suspender imediatamente e trocar por sulfonilureia", "Encaminhar à ginecologia e manter a medicação sem nenhuma orientação adicional", "Reduzir a dose à metade para diminuir a glicosúria"],
+    options: ["Orientar higiene perineal e manejar sem suspender (efeito adverso dos iSGLT2)", "Suspender o iSGLT2 imediatamente e substituir por sulfonilureia", "Encaminhar à ginecologia sem orientações — manter a dapagliflozina", "Reduzir a dose à metade para diminuir a glicosúria sintomática"],
     correctIndex: 0,
     explanation: "Infecção genitourinária (candidíase vulvovaginal, ITU) é efeito adverso frequente dos iSGLT2 pela glicosúria. A primeira conduta é orientar higiene perineal adequada. Apenas se não melhorar ou se houver infecções recorrentes graves considerar troca de classe. A proteção cardiorrenal é grande e não deve ser abandonada por efeito manejável."
   },
   {
     question: "Qual o mecanismo de ação dos agonistas do receptor de GLP-1 (semaglutida, liraglutida)?",
-    options: ["Mimetizam o GLP-1: secretam insulina glicose-dependente, reduzem glucagon, retardam esvaziamento gástrico e aumentam saciedade central", "Inibem a DPP-4, aumentando a meia-vida do GLP-1 endógeno e do GIP", "Bloqueiam o receptor de glucagon no fígado, reduzindo a glicogenólise", "Estimulam a secreção pancreática de insulina por mecanismo glicose-independente"],
+    options: ["Mimetizam GLP-1: insulina glicose-dependente, redução de glucagon e saciedade", "Inibem a DPP-4, aumentando a meia-vida do GLP-1 endógeno e do GIP", "Bloqueiam o receptor de glucagon no fígado, reduzindo a glicogenólise", "Estimulam a secreção pancreática de insulina por mecanismo glicose-independente"],
     correctIndex: 0,
     explanation: "Os GLP-1 RA mimetizam o hormônio incretina GLP-1. Como a ação é glicose-dependente (insulina só é liberada quando a glicose está elevada), raramente causam hipoglicemia. Além disso, o retardo do esvaziamento gástrico e a ação central no SNC causam saciedade — resultando em perda de peso."
   },
   {
     question: "Paciente com DM2 e carcinoma medular de tireoide na família quer iniciar GLP-1 RA para perda de peso. Qual a conduta?",
-    options: ["Contraindicado — GLP-1 RA e tirzepatida são contraindicados em história pessoal ou familiar de CMT ou NEM tipo 2", "Permitido desde que a dose seja baixa e monitorada com calcitonina semestral", "Indicado, pois o GLP-1 RA não tem relação com tumores tireoidianos em humanos", "Suspender caso a calcitonina se eleve acima de 2× o limite superior da normalidade"],
+    options: ["Contraindicado — CMT ou NEM2 é contraindicação absoluta ao GLP-1 RA e tirzepatida", "Permitido desde que a dose seja baixa e monitorada com calcitonina semestral", "Indicado, pois o GLP-1 RA não tem relação com tumores tireoidianos em humanos", "Suspender caso a calcitonina se eleve acima de 2× o limite superior da normalidade"],
     correctIndex: 0,
     explanation: "Histórico pessoal ou familiar de carcinoma medular de tireoide (CMT) ou neoplasia endócrina múltipla tipo 2 (NEM2) é contraindicação absoluta aos GLP-1 RA e tirzepatida. Em estudos em roedores, esses fármacos estimularam células C tireoidianas — embora sem evidência em humanos, a precaução é mantida pela relevância do risco."
   },
   {
     question: "Qual a vantagem dos inibidores da DPP-4 (gliptinas) em relação às sulfonilureias?",
-    options: ["Ação glicose-dependente — raramente causam hipoglicemia e são neutros em peso", "Maior redução de HbA1c (2–2,5%) com melhor perfil de segurança", "Proteção cardiovascular superior com redução de eventos isquêmicos", "Custo muito inferior no sistema público de saúde"],
+    options: ["Ação glicose-dependente — raramente causam hipoglicemia e peso neutro", "Maior redução de HbA1c (2–2,5%) com melhor perfil de segurança", "Proteção cardiovascular superior com redução de eventos isquêmicos", "Custo muito inferior ao das outras classes no sistema público"],
     correctIndex: 0,
     explanation: "Os iDPP-4 aumentam a meia-vida do GLP-1 e GIP endógenos — a ação é glicose-dependente, portanto raramente causam hipoglicemia. São neutros em peso. A redução de HbA1c é modesta (0,6–0,8%), inferior à metformina e sulfonilureias. Saxagliptina aumenta hospitalizações por IC — preferir outras gliptinas em IC."
   },
   {
     question: "Paciente com DM2, DRC (TFG = 25 mL/min/1,73 m²) e IC com FE reduzida. Qual a classe antidiabética mais indicada?",
-    options: ["iSGLT2 — protege tanto o rim quanto o coração, com evidências em DRC e IC com FE reduzida", "Sulfonilureia com ajuste de dose para a TFG", "Metformina em dose reduzida com monitoramento frequente", "iDPP-4 como única opção segura com TFG <30"],
+    options: ["iSGLT2 — protege rim e coração, com evidências em DRC e IC com FE reduzida", "Sulfonilureia com ajuste de dose pela TFG, pois não tem contraindicação em DRC avançada", "Metformina em dose reduzida, pois é segura em TFG >20 com monitoramento", "iDPP-4 como única opção segura em TFG <30, especialmente a linagliptina"],
     correctIndex: 0,
     explanation: "iSGLT2 têm a melhor evidência de proteção cardiorrenal: reduzem progressão da DRC, diminuem hospitalizações por IC e mortalidade CV. Para dapagliflozina/empagliflozina em DRC, o limiar para suspensão é TFG <25 (indicação renal específica). Metformina é contraindicada com TFG <30."
   },
   {
     question: "Qual é a diferença de mecanismo entre iDPP-4 e GLP-1 RA?",
-    options: ["iDPP-4 preservam o GLP-1 endógeno (nível fisiológico); GLP-1 RA são moléculas exógenas com concentrações suprafisiológicas — por isso GLP-1 RA têm maior eficácia em peso e HbA1c", "iDPP-4 estimulam a célula beta diretamente; GLP-1 RA atuam no SNC para reduzir apetite", "iDPP-4 inibem o SGLT2 no rim; GLP-1 RA inibem a DPP-4 no intestino", "Ambos têm o mesmo mecanismo e eficácia, diferenciando-se apenas pela via de administração"],
+    options: ["iDPP-4 preservam GLP-1 endógeno (nível fisiológico); GLP-1 RA agem em concentração suprafisiológica, com maior eficácia em peso e HbA1c", "iDPP-4 estimulam a célula beta diretamente; GLP-1 RA atuam no SNC para suprimir o apetite central", "iDPP-4 inibem o SGLT2 renal; GLP-1 RA inibem a DPP-4 intestinal, elevando o GLP-1 por via reversa", "Ambos têm o mesmo mecanismo e eficácia metabólica, diferindo apenas pela via de administração"],
     correctIndex: 0,
     explanation: "Os iDPP-4 inibem a enzima que degrada o GLP-1 endógeno, mantendo-o em concentrações fisiológicas (baixas). Os GLP-1 RA injetam o receptor com concentrações muito maiores que as fisiológicas, gerando efeitos mais intensos — maior perda de peso, maior redução de HbA1c, maior retardo do esvaziamento gástrico e benefício CV mais pronunciado."
   },
   {
     question: "O que é a tirzepatida e qual sua principal vantagem sobre os GLP-1 RA convencionais?",
-    options: ["Agonista duplo GIP/GLP-1 — maior redução de HbA1c (>2%) e maior perda de peso que os GLP-1 RA isolados", "Agonista exclusivo do GIP com menor risco de náusea e maior eficácia que os GLP-1 RA", "Combinação fixa de insulina basal com GLP-1 RA em uma única injeção", "Análogo de GLP-1 de ação ultra-rápida para uso prandial em DM2 grave"],
+    options: ["Agonista duplo GIP/GLP-1 — maior redução de HbA1c (>2%) e maior perda de peso que os GLP-1 RA", "Agonista exclusivo do GIP com menor risco de náusea e maior eficácia que os GLP-1 RA isolados", "Combinação fixa de insulina basal com GLP-1 RA em uma única injeção semanal subcutânea", "Análogo de GLP-1 de ação ultra-rápida para uso prandial em DM2 grave e mal controlado"],
     correctIndex: 0,
     explanation: "A tirzepatida (Mounjaro) ativa receptores de GIP e GLP-1 simultaneamente. O GIP amplifica os efeitos insulinotrópicos e lipolíticos. Em estudos clínicos, tirzepatida mostrou redução de HbA1c >2% e perda de peso superior a todos os GLP-1 RA. Não deve ser combinada com GLP-1 RA (sobreposição de mecanismo) nem iDPP-4."
   },
   {
     question: "Qual a meta de HbA1c para o acompanhamento do DM2 e em que ponto se considera escalar a terapia?",
-    options: ["Meta de acompanhamento: HbA1c <7%; escalar terapia se HbA1c ≥7,5% (0,5% acima do alvo)", "Meta de acompanhamento: HbA1c <8%; escalar se >9%", "Meta de acompanhamento: HbA1c <6,5%; escalar imediatamente se ultrapassa 7%", "Meta de acompanhamento: HbA1c <7,5%; escalar apenas se sintomas de hiperglicemia"],
+    options: ["Meta <7%; escalar terapia se HbA1c ≥7,5% — 0,5% acima do alvo de acompanhamento", "Meta de acompanhamento: HbA1c <8%; escalar a terapia se HbA1c ultrapassar 9%", "Meta de acompanhamento: HbA1c <6,5%; escalar imediatamente se ultrapassa 7%", "Meta de acompanhamento: HbA1c <7,5%; escalar apenas se sintomas de hiperglicemia"],
     correctIndex: 0,
     explanation: "Segundo as diretrizes da SBD: HbA1c >6,5% = diagnóstico; >7,5% = ponto de decisão para escalar ou iniciar terapia combinada; alvo de acompanhamento <7%. Metas individualizadas para idosos, alto risco de hipoglicemia ou comorbidades graves podem ser menos estritas (<8%)."
   },
   {
     question: "Em paciente com DM2, sem doença cardiorrenal, sem obesidade e HbA1c de 8,2%, qual a terapia inicial recomendada?",
-    options: ["Terapia dupla: metformina + iSGLT2 (ou outro AD) — HbA1c ≥7,5% indica combinação inicial", "Metformina em monoterapia com reavaliação em 6 meses", "Insulina NPH basal imediatamente pela HbA1c acima de 8%", "iSGLT2 isolado pela proteção cardiovascular independente da metformina"],
+    options: ["Terapia dupla: metformina + iSGLT2 (ou outro AD) — HbA1c ≥7,5% indica combinação inicial", "Metformina em monoterapia com reavaliação em 6 meses, pois HbA1c <9% tolera monoterapia", "Insulina NPH basal imediatamente, pois qualquer HbA1c >8% indica insulinização precoce", "iSGLT2 isolado, pois a proteção cardiovascular torna dispensável associar a metformina"],
     correctIndex: 0,
     explanation: "Segundo a SBD, pacientes sem doença cardiorrenal e sem obesidade/sobrepeso, mas com HbA1c ≥7,5% (≥0,5% acima do alvo), devem iniciar terapia dupla. Metformina + iSGLT2 é a combinação preferencial. Apenas se HbA1c <7,5%, a metformina em monoterapia é recomendada como primeira escolha."
   },
   {
     question: "Qual o principal efeito adverso das glitazonas que limita seu uso em pacientes com insuficiência cardíaca?",
-    options: ["Retenção hídrica e ganho de peso, podendo descompensar a IC — contraindicadas na IC classe III–IV", "Aumento da PA sistólica por vasoconstrição periférica", "Estimulação do sistema renina-angiotensina com hipernatremia", "Taquicardia reflexa por vasodilatação arterial periférica excessiva"],
+    options: ["Retenção hídrica e ganho de peso, podendo descompensar a IC — contraindicadas na IC classe III–IV", "Aumento da PA sistólica por vasoconstrição periférica, contraindicando as glitazonas em hipertensos", "Estimulação do sistema renina-angiotensina com retenção de sódio e hipernatremia associada", "Taquicardia reflexa por vasodilatação arterial periférica, aumentando a pós-carga e risco de IAM"],
     correctIndex: 0,
     explanation: "As glitazonas causam retenção hídrica (ativam PPAR-γ no rim e aumentam reabsorção de sódio), podendo precipitar ou agravar IC. São contraindicadas na IC classes III e IV da NYHA. Além disso, causam ganho de peso e aumentam o risco de fraturas por reabsorção óssea — especialmente problemático em mulheres na menopausa."
   },
   {
     question: "Em qual tipo de diabetes a insulinoterapia é obrigatória desde o diagnóstico?",
-    options: ["DM tipo 1 — destruição autoimune das células beta causa deficiência absoluta de insulina; os antidiabéticos orais não funcionam nesse tipo", "DM tipo 2 com HbA1c >10% ao diagnóstico", "DM tipo 2 em pacientes com IMC >35 kg/m²", "DM gestacional diagnosticado após a 20ª semana"],
+    options: ["DM tipo 1 — deficiência absoluta de insulina por destruição autoimune das células beta; ADs orais ineficazes", "DM tipo 2 com HbA1c >10% ao diagnóstico, pois valores altos indicam falência precoce das células beta", "DM tipo 2 em pacientes com IMC >35 kg/m², pela resistência insulínica severa que supera a ação oral", "DM gestacional diagnosticado após a 20ª semana, pois o período fetal tardio exige controle rígido"],
     correctIndex: 0,
     explanation: "No DM1, as células beta foram destruídas pelo sistema imunológico — não há produção endógena de insulina. O tratamento com insulina é obrigatório e imediato (prevenir cetoacidose diabética). Os antidiabéticos orais que dependem de células beta funcionantes (sulfonilureias, iDPP-4) são ineficazes no DM1."
   },
   {
     question: "Qual é a diferença de perfil cinético entre a insulina NPH e a insulina Regular?",
-    options: ["NPH: intermediária (início 2–4h, pico 4–10h, duração 10–18h); Regular: curta (início 30–60 min, pico 2–3h, duração 5–8h)", "NPH: longa (início 1h, sem pico, duração 24h); Regular: intermediária (início 1–2h, pico 4–6h, duração 12–16h)", "NPH: curta (início 30 min, pico 1–2h, duração 4–6h); Regular: intermediária (início 2h, pico 6–8h, duração 14h)", "Ambas têm perfil semelhante, diferindo apenas na estabilidade em temperatura ambiente"],
+    options: ["NPH: intermediária (início 2–4h, pico 4–10h, duração 10–18h); Regular: curta (início 30–60 min, pico 2–3h, duração 5–8h)", "NPH: longa (início 1h, sem pico, duração 24h); Regular: intermediária (início 1–2h, pico 4–6h, duração 12–16h)", "NPH: curta (início 30 min, pico 1–2h, duração 4–6h); Regular: intermediária (início 2h, pico 6–8h, duração 14h)", "Ambas têm perfil cinético semelhante, diferindo apenas na estabilidade em temperatura ambiente e prateleira"],
     correctIndex: 0,
     explanation: "NPH (Neutral Protamine Hagedorn) é insulina de ação intermediária — serve como basal, necessita 2–3 aplicações/dia. Regular (R) é de ação curta — serve como prandial/bolus, deve ser aplicada 30 minutos antes da refeição para coincidir o pico com a absorção alimentar. Mnemônico: R = Regular = Rápida = Refeição."
   },
@@ -208,19 +208,19 @@ const rawQuestions = [
   },
   {
     question: "Qual o gliptina que NÃO precisa de ajuste de dose com redução da TFG?",
-    options: ["Linagliptina — é eliminada predominantemente pelas fezes (via biliar), sem dependência renal", "Sitagliptina — é a mais segura em doença renal crônica", "Saxagliptina — não requer ajuste pois é metabolizada pelo fígado", "Vildagliptina — dose padrão em qualquer nível de TFG"],
+    options: ["Linagliptina — é eliminada predominantemente pelas fezes (via biliar), sem dependência renal", "Sitagliptina — é a mais segura em DRC pois sua dose pode ser mantida sem ajuste renal", "Saxagliptina — não requer ajuste de dose pois é completamente metabolizada pelo fígado", "Vildagliptina — dose padrão em qualquer nível de TFG, pois é eliminada pela bile"],
     correctIndex: 0,
     explanation: "A linagliptina é a única gliptina eliminada predominantemente pela bile/fezes, não pelo rim. Portanto, não requer ajuste de dose em nenhum grau de DRC — uma vantagem prática importante em pacientes com TFG reduzida. As demais (sitagliptina, saxagliptina, vildagliptina) precisam de ajuste conforme a TFG."
   },
   {
     question: "Paciente com DM2 e obesidade grave (IMC 42) sem DCV estabelecida. Qual classe priorizar?",
-    options: ["GLP-1 RA ou tirzepatida — maior redução de peso associada ao controle glicêmico", "iSGLT2 como única classe com benefício em obesidade grave", "Sulfonilureia em dose alta para controle glicêmico agressivo", "Metformina em alta dose + tiazolidinediona para sinergia metabólica"],
+    options: ["GLP-1 RA ou tirzepatida — maior redução de peso associada ao controle glicêmico", "iSGLT2 como única classe com benefício comprovado em obesidade grave sem DCV", "Sulfonilureia em dose alta para controle glicêmico agressivo em obesos com DM2", "Metformina em alta dose + tiazolidinediona para obter sinergia metabólica e redução glicêmica"],
     correctIndex: 0,
     explanation: "GLP-1 RA (especialmente semaglutida) e tirzepatida têm os maiores efeitos de perda de peso entre os antidiabéticos. Em obesos com DM2, essa dupla ação (controle glicêmico + redução de peso) é prioritária. Tirzepatida (GIP/GLP-1) apresenta a maior redução de peso de qualquer antidiabético disponível."
   },
   {
     question: "Uma saxagliptina (iDPP-4) específica aumenta o risco de qual complicação grave?",
-    options: ["Hospitalização por insuficiência cardíaca — diferentemente de outras gliptinas que são neutras nesse desfecho", "Cetoacidose euglicêmica em pacientes com DM1 inadvertidamente diagnosticados como DM2", "Agranulocitose por supressão medular dose-dependente", "Pancreatite necrosante hemorrágica em pacientes com triglicérides acima de 500"],
+    options: ["Hospitalização por insuficiência cardíaca — diferentemente de outras gliptinas que são neutras nesse desfecho", "Cetoacidose euglicêmica em pacientes com DM1 inadvertidamente diagnosticados como DM2", "Agranulocitose por supressão medular dose-dependente, exigindo monitoramento do hemograma mensal", "Pancreatite necrosante hemorrágica em pacientes com triglicérides acima de 500 mg/dL"],
     correctIndex: 0,
     explanation: "O estudo SAVOR-TIMI mostrou que saxagliptina aumentou significativamente as hospitalizações por IC em relação ao placebo — resultado que não foi observado com outras gliptinas (sitagliptina, linagliptina). Por isso, saxagliptina é evitada em pacientes com IC ou risco elevado de IC."
   }
